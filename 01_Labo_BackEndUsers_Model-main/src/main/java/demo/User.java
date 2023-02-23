@@ -74,7 +74,6 @@ public class User {
     }
 
     public String getEmail() {
-
         if (email.contains("@") && email.contains(".") && email.length() > 5)
             return email;
         else
