@@ -107,7 +107,7 @@ class UserTest {
     @Test
     void givenInvalidPassword_whenCreatingUser_thenUserIsCreatedWithDefaultPasswordt() {
         // when
-        User elke = new User(validNameElke, validAgeElke, validEmailElke, "    ");
+        User elke = new User(validNameElke, validAgeElke, validEmailElke, "ikgahetnietvertellenhoor");
 
         // then
         assertNotNull(elke);
@@ -115,7 +115,7 @@ class UserTest {
         assertEquals(validAgeElke, elke.getAge());
         assertEquals(0, elke.countYearsOfMembership());
         assertEquals(validEmailElke, elke.getEmail());
-        assertEquals("@$-t&%#", elke.getPassword());
+        assertEquals("@$-" + validPasswordElke + "&%#", elke.getPassword());
     }
 
     // getFirstmembershipYear

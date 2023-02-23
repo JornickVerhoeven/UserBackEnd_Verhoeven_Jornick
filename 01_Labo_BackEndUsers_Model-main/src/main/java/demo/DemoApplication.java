@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		User elke = new User("Elke", 44, "elke@gmail.com", "ikgahetnietvertellenhoor");
+		User elke = new User("Elke", 44, "elke.steegmans.ucll.be", "t");
 		System.out.println(elke.getAge());
 		elke.addMembershipYear(2000);
 		elke.addMembershipYear(2010);

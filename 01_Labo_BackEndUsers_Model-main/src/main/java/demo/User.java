@@ -29,6 +29,22 @@ public class User {
         return result;
     }
 
+    public int getNumberOfMembershipYearsIn2000() {
+        int result = 0;
+        for (Integer year : membershipYears) {
+            if (year >= 2000 && year < 3000)
+                result++;
+        }
+        return result;
+    }
+
+    public boolean isPasswordCorrect(String password) {
+        if (this.password.equals("@$-" + password + "&%#"))
+            return true;
+        else
+            return false;
+    }
+
     public int countYearsOfMembership() {
         return membershipYears.size();
     }
@@ -38,12 +54,15 @@ public class User {
     }
 
     public int getFirstMembershipYear() {
-        int year = membershipYears.get(0);
-        for (int i = 0; i < membershipYears.size(); i++) {
-            if (membershipYears.get(i + 1) < membershipYears.get(i))
-                year = membershipYears.get(i);
+        int result = Integer.MAX_VALUE;
+        for (Integer year : membershipYears) {
+            if (year < result)
+                result = year;
         }
-        return year;
+        if (result == Integer.MAX_VALUE) {
+            return 0;
+        }
+        return result;
     }
 
     public int getAge() {
@@ -55,10 +74,18 @@ public class User {
     }
 
     public String getEmail() {
-        return email;
+
+        if (email.contains("@") && email.contains(".") && email.length() > 5)
+            return email;
+        else
+            return null;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public String toString() {
+        return name + " is " + age + " years old and has as email " + email;
     }
 }
