@@ -21,6 +21,13 @@ public class UserService {
         return userRepository.stream().filter(user -> user.getAge() > age).toList();
     }
 
+    public List<User> getUserWithEmailAndAge(String email, int age) {
+        if (userRepository.stream().filter(user -> user.getEmail().equals(email) && user.getAge() == age).toList()
+                .size() == 0)
+            return null;
+        return userRepository.stream().filter(user -> user.getEmail().equals(email) && user.getAge() == age).toList();
+    }
+
     public User getOldestUser() {
         User oldest = null;
         if (userRepository.size() > 0) {
@@ -31,6 +38,13 @@ public class UserService {
             }
         }
         return oldest;
+    }
+
+    public List<User> getUsersWithAgeBetween(int minAge, int maxAge) {
+        if (userRepository.stream().filter(user -> user.getAge() >= minAge && user.getAge() <= maxAge).toList()
+                .size() == 0)
+            return null;
+        return userRepository.stream().filter(user -> user.getAge() >= minAge && user.getAge() <= maxAge).toList();
     }
 
     public User getUserWithName(String name) {

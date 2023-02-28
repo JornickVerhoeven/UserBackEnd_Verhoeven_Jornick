@@ -15,8 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserRestController {
 
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    UserRestController(UserService userService) {
+        this.userService = userService;
+
+        User elke = new User("Elke", 44, "elke.steegmans@ucll.be", "t");
+
+        this.userService.addUser(elke);
+
+        User miyo = new User("Miyo", 14, "myo@gmail.com", "t");
+        this.userService.addUser(miyo);
+
+        User yuki = new User("Yuki", 12, "yuki@gmail.com", "t");
+        this.userService.addUser(yuki);
+
+        User eric = new User("Eric", 65, "Eric@gmail.com", "t");
+        this.userService.addUser(eric);
+
+    }
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -31,6 +49,26 @@ public class UserRestController {
     @GetMapping("/search/olderthan")
     public List<User> searchUsersWithAgeOlderThan(@RequestParam("age") int age) {
         return userService.getUsersWithAgeOlderThan(age);
+    }
+
+    @GetMapping("/adults")
+    public List<User> searchAdults() {
+        return userService.getUsersWithAgeOlderThan(18);
+    }
+
+    @GetMapping("/search/email/{email}")
+    public User searchUserWithEmail(@PathVariable("email") String email) {
+        return userService.getUserWithEmail(email);
+    }
+
+    @GetMapping("/search/{email}/{age}")
+    public List<User> searchUserWithEmailAndAge(@PathVariable("email") String email, @PathVariable("age") int age) {
+        return userService.getUserWithEmailAndAge(email, age);
+    }
+
+    @GetMapping("/search/age/{min}/{max}")
+    public List<User> searchUserWithAgeBetween(@PathVariable("min") int min, @PathVariable("max") int max) {
+        return userService.getUsersWithAgeBetween(min, max);
     }
 
     @GetMapping("/search/{name}")
