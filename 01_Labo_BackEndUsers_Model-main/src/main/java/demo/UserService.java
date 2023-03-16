@@ -11,6 +11,16 @@ public class UserService {
     private List<User> userRepository = new ArrayList<>();
 
     public UserService() {
+        User elke = new User("Elke", 44, "elke@ucll.be", "elke");
+        User miyo = new User("Miyo", 15, "miyo@ucll.be", "miyo");
+        User eric = new User("Eric", 65, "eric@kuleuven.be", "eric");
+        User yuki = new User("Yuki", 13, "yuki@ucll.be", "yuki");
+        User stijn = new User("Stijn", 45, "stijn@ucll.be", "stijn");
+        this.addUser(elke);
+        this.addUser(miyo);
+        this.addUser(eric);
+        this.addUser(yuki);
+        this.addUser(stijn);
     }
 
     public List<User> getAllUsers() {
@@ -19,13 +29,6 @@ public class UserService {
 
     public List<User> getUsersWithAgeOlderThan(int age) {
         return userRepository.stream().filter(user -> user.getAge() > age).toList();
-    }
-
-    public List<User> getUserWithEmailAndAge(String email, int age) {
-        if (userRepository.stream().filter(user -> user.getEmail().equals(email) && user.getAge() == age).toList()
-                .size() == 0)
-            return null;
-        return userRepository.stream().filter(user -> user.getEmail().equals(email) && user.getAge() == age).toList();
     }
 
     public User getOldestUser() {
@@ -40,40 +43,84 @@ public class UserService {
         return oldest;
     }
 
-    public List<User> getUsersWithAgeBetween(int minAge, int maxAge) {
-        if (userRepository.stream().filter(user -> user.getAge() >= minAge && user.getAge() <= maxAge).toList()
-                .size() == 0)
-            return null;
-        return userRepository.stream().filter(user -> user.getAge() >= minAge && user.getAge() <= maxAge).toList();
-    }
-
     public User getUserWithName(String name) {
         return userRepository.stream().filter(user -> user.getName().equals(name)).toList().get(0);
     }
 
-    public User getUserWithEmail(String email) {
-        if (userRepository.stream().filter(user -> user.getEmail().equals(email)).toList().size() == 0)
-            return null;
-        return userRepository.stream().filter(user -> user.getEmail().equals(email)).toList().get(0);
-    }
-
-    public User removeUser(String email) {
-        User user = getUserWithEmail(email);
-        if (user != null) {
-            userRepository.remove(user);
-        }
-        return user;
-    }
-
     public boolean addUser(User user) {
-        for (User u : userRepository) {
-            if (u.getEmail().equals(user.getEmail())) {
+        for (User userL : userRepository) {
+            if (userL.getEmail().equals(user.getEmail())) {
                 return false;
             }
         }
-        userRepository.add(user);
-        return true;
+        return userRepository.add(user);
+    }
+
+    public User getUserWithEmail(String email) {
+        User rightUser = null;
+        for (User user : userRepository) {
+            if (user.getEmail().equals(email)) {
+                rightUser = user;
+
+            }
+        }
+        return rightUser;
 
     }
 
+    public User removeUser(String string) {
+        User foundUser = getUserWithEmail(string);
+        if (foundUser == null) {
+            return null;
+        }
+        int i = 0;
+        int j = 0;
+        for (User user : userRepository) {
+            if (foundUser.equals(user)) {
+                j = i;
+
+            }
+            i++;
+        }
+        userRepository.remove(j);
+        return foundUser;
+
+    }
+
+    public List<User> getUsersFromYear(int year) {
+        List<User> newList = new ArrayList<>();
+        for (User user : userRepository) {
+            for (Integer jaar : user.membershipYears) {
+                if (jaar == year) {
+                    newList.add(user);
+                }
+            }
+
+        }
+        return newList;
+
+    }
+
+    public List<User> functieBart(String email, int age) {
+        List<User> david = getUsersWithAgeOlderThan(age);
+        List<User> Bart = new ArrayList<>();
+        for (User user : david) {
+            if (user.getEmail().equals(email)) {
+                Bart.add(user);
+
+            }
+        }
+        return Bart;
+    }
+
+    public List<User> functieTom(int min, int max) {
+        List<User> Tom = new ArrayList<>();
+        for (User user : userRepository) {
+            if (user.getAge() > min && user.getAge() < max) {
+                Tom.add(user);
+
+            }
+        }
+        return Tom;
+    }
 }

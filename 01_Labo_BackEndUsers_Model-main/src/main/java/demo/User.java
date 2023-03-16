@@ -2,22 +2,26 @@ package demo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class User {
 
     private String name;
     private int age;
-    private List<Integer> membershipYears = new ArrayList<Integer>();
-    private String email;
-    private String password;
+    private String Email;
+    private String Password;
+    public List<Integer> membershipYears = new ArrayList<Integer>();
 
-    public User(String name, int age, String email, String password) {
+    public User(String name, int age, String Email, String Password) {
         this.name = name;
-        this.email = email;
-        this.password = "@$-" + password + "&%#";
-
-        if (age >= 0)
+        if (age >= 0) {
             this.age = age;
+        } else {
+            this.age = 0;
+        }
+        // this.age = age;
+        this.Email = Email;
+        this.Password = Password;
     }
 
     public int countMembershipYearsAfter1999() {
@@ -29,22 +33,6 @@ public class User {
         return result;
     }
 
-    public int getNumberOfMembershipYearsIn2000() {
-        int result = 0;
-        for (Integer year : membershipYears) {
-            if (year >= 2000 && year < 3000)
-                result++;
-        }
-        return result;
-    }
-
-    public boolean isPasswordCorrect(String password) {
-        if (this.password.equals("@$-" + password + "&%#"))
-            return true;
-        else
-            return false;
-    }
-
     public int countYearsOfMembership() {
         return membershipYears.size();
     }
@@ -53,38 +41,72 @@ public class User {
         membershipYears.add(year);
     }
 
-    public int getFirstMembershipYear() {
-        int result = Integer.MAX_VALUE;
-        for (Integer year : membershipYears) {
-            if (year < result)
-                result = year;
-        }
-        if (result == Integer.MAX_VALUE) {
-            return 0;
-        }
-        return result;
-    }
-
     public int getAge() {
         return this.age;
     }
 
     public String getName() {
-        return name;
+        return this.name;
+    }
+
+    public boolean traverseString(String str) {
+        char[] ch = str.toCharArray();
+
+        // Traverse the character array
+        for (int i = 0; i < ch.length; i++) {
+            if (ch[i] == '@') {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getEmail() {
-        if (email.contains("@") && email.contains(".") && email.length() > 5)
-            return email;
-        else
+        if (traverseString(this.Email) == false) {
             return null;
+        }
+        return this.Email;
     }
 
     public String getPassword() {
-        return password;
+        if (this.Password == "    ") {
+            this.Password = "t";
+        }
+        return "@$-" + this.Password + "&%#";
+    }
+
+    public int getFirstMembershipYear() {
+        if (membershipYears.size() == 0) {
+            return 0;
+        }
+        Collections.sort(membershipYears);
+        return membershipYears.get(0);
+    }
+
+    public int countMembershipYearsAfter2999() {
+        int result = 0;
+        for (Integer year : membershipYears) {
+            if (year > 2999)
+                result++;
+        }
+        return result;
+    }
+
+    public int getNumberOfMembershipYearsIn2000() {
+        return countMembershipYearsAfter1999() - countMembershipYearsAfter2999();
+
+    }
+
+    public boolean isPasswordCorrect(String string) {
+        if (string == this.Password) {
+            return true;
+        }
+        return false;
     }
 
     public String toString() {
-        return name + " is " + age + " years old and has as email " + email;
+        return this.name + " is " + this.age + " years old and has as email " + this.Email;
+
     }
+
 }
