@@ -2,15 +2,36 @@ package demo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.persistence.GenerationType;
+
 import java.util.Collections;
 
+@Entity
+@Table(name = "users")
+
 public class User {
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+
+    public long id;
 
     private String name;
     private int age;
     private String Email;
     private String Password;
+    @Transient
     public List<Integer> membershipYears = new ArrayList<Integer>();
+
+    public User() {
+    }
 
     public User(String name, int age, String Email, String Password) {
         this.name = name;
